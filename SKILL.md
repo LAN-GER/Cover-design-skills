@@ -27,16 +27,27 @@ python scripts/generate_cover.py \
 
 ### Parameters
 
-| Parameter | Required | Description |
-|-----------|----------|-------------|
-| `--background` / `-b` | Yes | Background image path |
-| `--title` / `-t` | Yes | Main title (large white text) |
-| `--subtitle` / `-s` | No | Subtitle (gray text below title) |
-| `--model` / `-m` | No | Model name (green label above title) |
-| `--logo` / `-l` | No | Brand logo image path |
-| `--output` / `-o` | No | Output path (default: cover_output.jpg) |
-| `--blur` | No | Background blur radius (default: 2) |
-| `--brightness` | No | Background brightness 0-1 (default: 0.75) |
+| Parameter | Required | Default | Description |
+|-----------|----------|---------|-------------|
+| `--background` / `-b` | Yes | — | Background image path |
+| `--title` / `-t` | Yes | — | Main title (large white text) |
+| `--subtitle` / `-s` | No | `""` | Subtitle (gray text below title) |
+| `--model` / `-m` | No | `""` | Model name (green label above title) |
+| `--logo` / `-l` | No | `None` | Brand logo image path |
+| `--output` / `-o` | No | `cover_output.jpg` | Output file path |
+| `--blur` | No | `2` | Background blur radius |
+| `--brightness` | No | `0.75` | Background brightness (0-1) |
+| `--text-align` | No | `center` | Text alignment: `center` or `left` |
+| `--logo-position` | No | `auto` | Logo position: `auto`, `topleft`, `center` |
+
+**`--logo-position` options:**
+- `auto` — Logo near card top-left corner with gap (default, recommended)
+- `topleft` — Fixed top-left of image
+- `center` — Centered at top of image
+
+**`--text-align` options:**
+- `center` — All text centered in card (default)
+- `left` — Text left-aligned in card
 
 ### Programmatic Usage
 
@@ -50,16 +61,19 @@ generate_cover(
     model_name="reBot-Arm-B601",
     brand_logo="assets/logo.png",
     output_path="cover.jpg",
+    text_align="center",
+    logo_position="auto",
 )
 ```
 
 ## Design Spec
 
 - **Background**: Gaussian blur (radius 2) + brightness 0.75 + dark overlay (alpha 60)
-- **Card**: Dark semi-transparent rounded rectangle, auto-sized to fit title width
+- **Card**: Dark semi-transparent rounded rectangle, auto-sized to fit title width, centered by default
+- **Logo**: Positioned near card top-left with gap (avoids overlapping card border)
 - **Colors**: Green `#8BC34A` for model/brand, white `#FFFFFF` for title, light gray `#E6E6E6` for subtitle
 - **Sizing**: Proportional to image width (4K reference base), all elements scale automatically
-- **Bottom bar**: Semi-transparent black strip with brand name
+- **Bottom bar**: Semi-transparent black strip with brand name (centered when text-align=center)
 
 ## Assets
 
