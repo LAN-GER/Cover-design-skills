@@ -242,23 +242,13 @@ def generate_cover(
     cover_final = cover_final_rgba.convert("RGB")
     draw = ImageDraw.Draw(cover_final)
 
-    # 底部品牌文字（根据对齐方式决定位置）
+    # 底部品牌文字（固定左下角）
     if brand_logo:
         info_text = "seeed studio"
-        info_bbox = draw.textbbox((0, 0), info_text, font=info_font)
-        info_w = info_bbox[2] - info_bbox[0]
-        if text_align == "center":
-            # 居中放置
-            draw.text(
-                ((w - info_w) // 2, h - bottom_bar_h + int(30 * base_unit)),
-                info_text, font=info_font, fill=(139, 195, 74),
-            )
-        else:
-            # 左下角
-            draw.text(
-                (int(55 * base_unit), h - bottom_bar_h + int(30 * base_unit)),
-                info_text, font=info_font, fill=(139, 195, 74),
-            )
+        draw.text(
+            (int(55 * base_unit), h - bottom_bar_h + int(30 * base_unit)),
+            info_text, font=info_font, fill=(139, 195, 74),
+        )
 
     # ===== 9. 保存输出 =====
     cover_final.save(output_path, quality=98)
